@@ -1,0 +1,11 @@
+# This file tells the quagga package which daemons to start.
+#
+# Entries are in the format: <daemon>=(yes|no|priority)
+#   0, "no"  = disabled
+#   1, "yes" = highest priority
+#   2 .. 10  = lower priorities
+{% services = pillar['quagga'] %}
+zebra=yes
+{% for daemon in daemons %}
+  {{ daemon }}={{ services[daemon] and services[daemon]['enable'] and "yes" or "no" }}
+{% endfor %}
