@@ -4,8 +4,7 @@
 #   0, "no"  = disabled
 #   1, "yes" = highest priority
 #   2 .. 10  = lower priorities
-{% services = pillar['quagga'] %}
 zebra=yes
 {% for daemon in daemons %}
-  {{ daemon }}={{ services[daemon] and services[daemon]['enable'] and "yes" or "no" }}
+  {{ daemon }}={{ daemons.get(daemon) and daemons[daemon].get('enable') and "yes" or "no" }}
 {% endfor %}

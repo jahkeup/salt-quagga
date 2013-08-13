@@ -1,0 +1,17 @@
+--- /tmp/quagga	2013-08-12 22:44:11.769601364 +0000
++++ quagga	2013-08-12 23:11:50.722292362 +0000
+@@ -75,7 +75,13 @@
+ {
+ 	echo -n " $1"
+ 	if ! check_daemon $1; then return; fi
+-
++	# If its already started, don't do anything!
++	the_daemon=$(basename "$1")
++	if [[ $(started "$the_daemon") -eq 0 ]]; then
++	    echo "."
++	    echo "$the_daemon daemon already started."
++	    return
++	fi
+ 	start-stop-daemon \
+ 		--start \
+ 		--pidfile=`pidfile $1` \

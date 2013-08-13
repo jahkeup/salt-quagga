@@ -32,3 +32,4 @@ And if one were to add say `bgpd` it could look something like:
         networks:
           - 69.43.73.0/24
           - 199.232.79.8/29
+          - 199.232.79.250/32
