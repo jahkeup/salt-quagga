@@ -30,6 +30,8 @@ quagga:
       - file: /etc/quagga/{{daemon}}.conf
       {% endif %}
       {% endfor %}
+patch:
+  pkg.installed
 
 /etc/init.d/quagga:
     file.patch:
@@ -37,6 +39,7 @@ quagga:
       - hash: md5=98fcbd8be320b219d924a929b5f75475
       - require:
           - pkg: quagga
+          - pkg: patch
 {{ quagga_conf_dir }}:
   file.directory:
     - user: quagga
