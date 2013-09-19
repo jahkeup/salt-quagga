@@ -4,17 +4,18 @@
 {#
   This state expects the following pillar structure:
 
-  quagga:
-    enable_password: my_pass
-    ospfd:
-      enable: True
-      networks:
-        - 69.43.73.0/26
-        - 10.0.11.0/24
-      intefaces:
-        eth0:
-          cost: 2
+quagga:
+  enable_password: my_pass
+  ospfd:
+    enable: True
+    networks:
+      - 69.43.73.0/26
+      - 10.0.11.0/24
+    intefaces:
+      eth0:
+        cost: 2
 #}
+
 {% if salt['pillar.get']('quagga') %}
 {% set quagga = pillar['quagga'] %}
 
@@ -23,6 +24,8 @@ quagga:
     - installed
   service.running:
     - enable: True
+    - require:
+      - pkg: quagga
     - watch:
       - file: {{ daemon_conf }}
       {% for daemon in daemons %}
@@ -38,8 +41,9 @@ patch:
       - source: salt://quagga/patch/quagga-init.patch
       - hash: md5=98fcbd8be320b219d924a929b5f75475
       - require:
-          - pkg: quagga
-          - pkg: patch
+        - pkg: quagga
+        - pkg: patch
+
 {{ quagga_conf_dir }}:
   file.directory:
     - user: quagga
