@@ -89,6 +89,7 @@ patch:
     - template: jinja
     - defaults:
         ref_bw: 102400
+        interfaces: None
     - context:
         router_id: {{ salt["network.ip_addrs"]()[0] }}
         hostname: {{ grains['host'] }}
@@ -97,16 +98,13 @@ patch:
           {% for subnet in ospfd.get('networks',[]) %}
           - {{ subnet }}
           {% endfor %}
-        interfaces:
         {% if ospfd.get('interfaces', None) %}
+        interfaces:
         {% set interfaces = ospfd['interfaces'] %}
           {% for interface in interfaces %}
-            {{ interface }}:
-              cost: {{ interfaces[interface].get('cost','102400') }}
+          {{ interface }}:
+            cost: {{ interfaces[interface].get('cost','102400') }}
           {% endfor %}
-        {% else %}
-          - lo:
-              cost: 102400
         {% endif %}
     - require:
       - pkg: quagga
