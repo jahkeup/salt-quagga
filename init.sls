@@ -97,13 +97,16 @@ patch:
           {% for subnet in ospfd.get('networks',[]) %}
           - {{ subnet }}
           {% endfor %}
+        interfaces:
         {% if ospfd.get('interfaces', None) %}
         {% set interfaces = ospfd['interfaces'] %}
-        interfaces:
           {% for interface in interfaces %}
             {{ interface }}:
               cost: {{ interfaces[interface].get('cost','102400') }}
           {% endfor %}
+        {% else %}
+          - lo:
+              cost: 102400
         {% endif %}
     - require:
       - pkg: quagga
