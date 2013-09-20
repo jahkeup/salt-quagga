@@ -39,7 +39,7 @@ patch:
 /etc/init.d/quagga:
     file.patch:
       - source: salt://quagga/patch/quagga-init.patch
-      - hash: md5=9f7147f38e2ba99804c20c762589bf8c
+      - hash: md5=21f9ae6dc1b00a4a94cbe79233e75e76
       - require:
         - pkg: quagga
         - pkg: patch
