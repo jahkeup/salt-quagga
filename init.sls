@@ -11,7 +11,7 @@ quagga:
     networks:
       - 69.43.73.0/26
       - 10.0.11.0/24
-    intefaces:
+    interfaces:
       eth0:
         cost: 2
 #}
@@ -89,7 +89,7 @@ patch:
     - template: jinja
     - defaults:
         ref_bw: 102400
-        interfaces: None
+        interfaces: False
     - context:
         router_id: {{ salt["network.ip_addrs"]()[0] }}
         hostname: {{ grains['host'] }}
@@ -100,7 +100,7 @@ patch:
           {% endfor %}
         {% if ospfd.get('interfaces', None) %}
         interfaces:
-        {% set interfaces = ospfd['interfaces'] %}
+          {% set interfaces = ospfd['interfaces'] %}
           {% for interface in interfaces %}
           {{ interface }}:
             cost: {{ interfaces[interface].get('cost','102400') }}
