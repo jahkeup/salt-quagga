@@ -1,6 +1,15 @@
 quagga:
-  pkg.purged
-
+  pkg.purged:
+    - require:
+      - service: quagga
+  service:
+    - dead
+  debconf.set:
+    - data:
+        quagga/really_stop:
+          type: boolean
+          value: True
+    
 quagga-conf:
   file.absent:
     - name: /etc/quagga
