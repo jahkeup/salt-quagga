@@ -21,3 +21,8 @@ quagga-init:
     - name: /etc/init.d/quagga
     - require:
       - pkg: quagga
+quagga-logs:
+  file.absent:
+    - name: /var/log/quagga
+    - require:
+      - pkg: quagga
